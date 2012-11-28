@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)http://twitter.github.com/bootstrap/examples/fluid.html# -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>企业员工管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="rguess">
+
+<!-- Le styles -->
+<link href="../css/bootstrap.css" rel="stylesheet">
+<link href="../css/bootstrap-responsive.css" rel="stylesheet">
+<style type="text/css">
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+.sidebar-nav {
+	padding: 9px 0;
+}
+</style>
+<script type="text/javascript" src="../js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+<script type="text/javascript" src="../js/addstaff.js"></script>
+<script type="text/javascript" src="../js/jquery.form.js"></script>
+<script type="text/javascript" src="../js/uploadPreview.js"></script>
+<script type="text/javascript" src="../js/bootbox.js"></script>
+<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand" href="#">企业员工管理系统</a>
+				<div class="nav-collapse collapse">
+					<p class="navbar-text pull-right">
+						<a href="#" class="navbar-link" style="margin-right: 20px">登陆</a>
+					</p>
+					<ul class="nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="well sidebar-nav">
+					<ul class="nav nav-list">
+						<li class="nav-header">员工管理</li>
+						<li><a href="staff.html">员工名单</a></li>
+						<li class="active"><a href="addstaff.html">添加员工</a></li>
+						<li><a href="#">Link</a></li>
+						<li><a href="#">Link</a></li>
+						<li class="nav-header">部门管理</li>
+						<li><a href="department.html">部门名单</a></li>
+						<li><a href="#">Link</a></li>
+						<li><a href="#">Link</a></li>
+						<li><a href="#">Link</a></li>
+						<li><a href="#">Link</a></li>
+						<li><a href="#">Link</a></li>
+						<li class="nav-header">Sidebar</li>
+						<li><a href="#">Link</a></li>
+						<li><a href="#">Link</a></li>
+						<li><a href="#">Link</a></li>
+					</ul>
+				</div>
+				<!--/.well -->
+			</div>
+			<!--/span-->
+			<div class="span9">
+				<div>
+					<h3>添加员工信息</h3>
+					<form class="form-horizontal" action="../rest/staff" method="post"
+						id="staffform" enctype="multipart/form-data">
+						<div class="control-group">
+							<label class="control-label" for="staffName">姓名</label>
+							<div class="controls">
+								<input type="text" id="staffName" name="staffName"
+									placeholder="姓名" onblur="javascript:checkStaffname(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="loginId">登录名</label>
+							<div class="controls">
+								<input type="text" id="loginId" name="loginId"
+									placeholder="loginId" onblur="javascript:checkLoginId(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="imagefile">上传头像</label>
+							<div class="controls">
+								<input type="file" id="imagefile" name="imagefile" multiple
+									onchange="handleFiles(this.files)">
+								<div id="imageview"></div>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="password">登录密码</label>
+							<div class="controls">
+								<input type="password" id="password" name="password"
+									placeholder="密码" onblur="javascript:checkPassword(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="repassword">重复密码</label>
+							<div class="controls">
+								<input type="password" id="repassword" name="repassword"
+									placeholder="重复密码" onblur="javascript:checkRePassword(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="department">部门</label>
+							<div class="controls">
+								<select id="department" name="department">
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="sex">性别</label>
+							<div class="controls">
+								<select id="sex" name="sex">
+									<option>男</option>
+									<option>女</option>
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="position">职位</label>
+							<div class="controls">
+								<input type="text" id="position" name="position"
+									placeholder="position"><span class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="phone">联系方式(手机)</label>
+							<div class="controls">
+								<input type="text" id="phone" name="phone" placeholder="phone"
+									onblur="javascript:checkPhone(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="address">住址</label>
+							<div class="controls">
+								<input type="text" id="address" name="address"
+									placeholder="address" onblur="javascript:checkPosition(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="salary">薪水</label>
+							<div class="controls">
+								<div class="input-append">
+									<input id="salary" name="salary" type="text" placeholder="薪水"
+										onblur="javascript:checkSalary(this);"> <span
+										class="add-on">.00元</span>
+								</div>
+								<span class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" class="btn btn-primary " id="staffsubmit">提交</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<!--/span-->
+		</div>
+		<!--/row-->
+		<hr>
+		<footer>
+			<p>© Company 2012</p>
+		</footer>
+	</div>
+
+</body>
+</html>

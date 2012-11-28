@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>登录</title>
+<link href="css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+</head>
+<body style="background-image: url('projectImage/bg1.jpg');">
+	<div class="container">
+		<div class="row-fluid">
+			<div class="span6">
+			</div>
+			<div class="span6" id="loginDiv" style="margin-top: 200px">
+				<form class="form-horizontal" action="LoginServlet" method="post">
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">LoginId</label>
+						<div class="controls">
+							<input type="text" id="staffName" name="staffName" placeholder="loginId" onblur="javascript:checkLoginId(this);"><span class="help-inline"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPassword">Password</label>
+						<div class="controls">
+							<input type="password" id="password" name="password" placeholder="password" ><span class="help-inline"></span>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox"><input type="checkbox">
+								Remember me </label><label>
+							<button type="submit" class="btn btn-primary">登&nbsp录</button>
+							<a class="btn btn-warning" href="pages/staff.html">新员工注册</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
