@@ -5,6 +5,11 @@
 
 	<display-name>Archetype Created Web Application</display-name>
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>WEB-INF/applicationContext.xml</param-value>
+	</context-param>
+
 	<servlet>
 		<servlet-name>CXFServlet</servlet-name>
 		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
@@ -14,6 +19,13 @@
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>org.guess.staffingsystem.filter.LoginServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>LoginOutServlet</display-name>
+		<servlet-name>LoginOutServlet</servlet-name>
+		<servlet-class>org.guess.staffingsystem.filter.LoginOutServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>CXFServlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
@@ -22,7 +34,11 @@
 		<servlet-name>LoginServlet</servlet-name>
 		<url-pattern>/LoginServlet</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+		<servlet-name>LoginOutServlet</servlet-name>
+		<url-pattern>/LoginOutServlet</url-pattern>
+	</servlet-mapping>
+
 	<filter>
 		<filter-name>Loginfilter</filter-name>
 		<filter-class>org.guess.staffingsystem.filter.LoginFilter</filter-class>
@@ -32,16 +48,10 @@
 		<filter-name>Loginfilter</filter-name>
 		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
-	
 	<filter-mapping>
 		<filter-name>Loginfilter</filter-name>
 		<url-pattern>/pages/*</url-pattern>
 	</filter-mapping>
-
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>WEB-INF/applicationContext.xml</param-value>
-	</context-param>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

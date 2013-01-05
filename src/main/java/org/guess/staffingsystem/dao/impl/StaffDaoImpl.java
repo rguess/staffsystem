@@ -31,8 +31,9 @@ public class StaffDaoImpl extends ObjectDaoImpl<Staff, Integer> implements
 	@Override
 	public List<Staff> getBySome(final int offset, final int length,
 			final Map<String, String> equalCondition,
-			final Map<String, String> likeCondition, final String departmentName,final String sex) {
-
+			final Map<String, String> likeCondition,
+			final String departmentName, final String sex) {
+		
 		return super.getHibernateTemplate().executeFind(
 				new HibernateCallback<List<Staff>>() {
 					@Override
@@ -85,8 +86,13 @@ public class StaffDaoImpl extends ObjectDaoImpl<Staff, Integer> implements
 							e.printStackTrace();
 						}
 						if (departmentName != null && "" != departmentName) {
-							crit.createCriteria("department").add(
-									Restrictions.eq("name", departmentName));
+							if ("未分配".equals(departmentName)) {
+								crit.add(Restrictions.isNull("department"));
+							} else {
+								crit.createCriteria("department")
+										.add(Restrictions.eq("name",
+												departmentName));
+							}
 						}
 						if (sex != null && "" != sex) {
 							crit.add(Restrictions.eq("sex", Sex.valueOf(sex)));
@@ -104,7 +110,8 @@ public class StaffDaoImpl extends ObjectDaoImpl<Staff, Integer> implements
 
 	@Override
 	public long countGetBySome(final Map<String, String> equalCondition,
-			final Map<String, String> likeCondition, final String departmentName,final String sex) {
+			final Map<String, String> likeCondition,
+			final String departmentName, final String sex) {
 
 		long count = super.getHibernateTemplate().execute(
 				new HibernateCallback<Long>() {
@@ -159,10 +166,15 @@ public class StaffDaoImpl extends ObjectDaoImpl<Staff, Integer> implements
 							e.printStackTrace();
 						}
 						if (departmentName != null && "" != departmentName) {
-							crit.createCriteria("department").add(
-									Restrictions.eq("name", departmentName));
+							if ("未分配".equals(departmentName)) {
+								crit.add(Restrictions.isNull("department"));
+							} else {
+								crit.createCriteria("department")
+										.add(Restrictions.eq("name",
+												departmentName));
+							}
 						}
-						if(sex != null && "" != sex){
+						if (sex != null && "" != sex) {
 							crit.add(Restrictions.eq("sex", Sex.valueOf(sex)));
 						}
 						return (Long) crit.uniqueResult();

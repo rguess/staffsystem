@@ -33,12 +33,12 @@ public class TestDepartment {
 		System.out.println(departmentDao.count(null, null));
 	}
 	
-	@Test
-	public void testFindByStaff(){
-		Staff staff = staffDao.get(1);
-		Department department = staff.getDepartment();
-		System.out.println(department.getIntroduction());
-	}
+//	@Test
+//	public void testFindByStaff(){
+//		Staff staff = staffDao.get(1);
+//		Department department = staff.getDepartment();
+//		System.out.println(department.getIntroduction());
+//	}
 	
 	@Test
 	public void testFindByName(){
@@ -54,6 +54,14 @@ public class TestDepartment {
 	@Test
 	public void testGetDepartmentName(){
 		List<Department> list = departmentDao.list("select department.name from Department department");
+		System.out.println(list.get(0));
+	}
+	
+	@Test
+	public void testQuery(){
+		List<Staff> list = staffDao.getBySome(0, 5, null, null, "未分配",null);
+		System.out.println(list.size());
+		System.out.println(list.get(0).getLoginId());
 	}
 	
 }

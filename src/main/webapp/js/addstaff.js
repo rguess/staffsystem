@@ -4,8 +4,7 @@ $(document).ready(function() {
 		if(formValidate()){
 			$("#staffform").ajaxSubmit(function(data){
 				if(data == "success"){
-					bootbox.alert("添加成功", "确定");
-					bootbox.confirm("继续添加?", function(result) {
+					bootbox.confirm("添加成功，继续添加?", function(result) {
 					    if (result) {
 					    	window.location.href="addstaff.html";
 					    } else {
@@ -23,7 +22,6 @@ $(document).ready(function() {
 
 //提交前验证表单
 function formValidate() {
-	
 	var flag = true;
 	if($("#staffName").val().length>4 || $("#staffName").val().length<2){
 		$("#staffName").parent().parent().addClass("error");
@@ -165,7 +163,7 @@ function checkPhone(object) {
 }
 
 //验证地址
-function checkPosition(object) {
+function checkAddress(object) {
 	if($(object).val().length<2){
 		$(object).parent().parent().addClass("error");
 		$(object).next().html("地址长度应该在2为以上");
@@ -215,6 +213,7 @@ function getDepartment() {
 			$.each(data,function(i,item){
 				$("#department").append("<option>"+item+"</option>");
 			});
+			$("#department").append("<option>暂不分配</option>");
 		}
 	});
 }

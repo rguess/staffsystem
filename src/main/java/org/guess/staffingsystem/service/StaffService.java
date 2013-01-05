@@ -1,15 +1,15 @@
 package org.guess.staffingsystem.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -22,14 +22,19 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.guess.staffingsystem.bean.SexConverter;
 import org.guess.staffingsystem.bean.Staff;
 import org.guess.staffingsystem.bean.Staff.Sex;
 import org.guess.staffingsystem.dao.DepartmentDao;
 import org.guess.staffingsystem.dao.StaffDao;
+import org.guess.staffingsystem.util.CookieUtil;
+import org.guess.staffingsystem.util.TimeTools;
 
 @Path("/staff")
 public class StaffService {
@@ -155,65 +160,42 @@ public class StaffService {
 
 		try {
 			List<FileItem> items = upload.parseRequest(request);
-			int num = 1;
 			Iterator<FileItem> iter = items.iterator();
 			while (iter.hasNext()) {
 				FileItem item = (FileItem) iter.next();
 				if (item.isFormField()) {
-					switch (num) {
-					case 1:
-						staff.setStaffName(item.getString("utf-8"));
-						break;
-					case 2:
-						staff.setLoginId(item.getString("utf-8"));
-						break;
-					case 3:
-						staff.setPassword(item.getString("utf-8"));
-						break;
-					case 5:
-						staff.setDepartment(departmentDao.list(
-								"from Department where name ='"
-										+ item.getString("utf-8") + "'").get(0));
-						break;
-					case 6:
-						staff.setSex(Sex.valueOf(item.getString("utf-8")));
-						break;
-					case 7:
-						staff.setPosition(item.getString("utf-8"));
-						break;
-					case 8:
-						staff.setPhoneNumber(item.getString("utf-8"));
-						break;
-					case 9:
-						staff.setAddress(item.getString("utf-8"));
-						break;
-					case 10:
-						staff.setSalary(Double.valueOf(item.getString("utf-8")));
-						break;
+					if ("department".equals(item.getFieldName())) {
+						if ("暂不分配".equals(item.getString("utf-8"))) {
+
+						} else {
+							staff.setDepartment(departmentDao.list(
+									"from Department where name ='"
+											+ item.getString("utf-8") + "'")
+									.get(0));
+						}
+					} else {
+						ConvertUtils.register(new SexConverter(), Sex.class);
+						BeanUtils.copyProperty(staff, item.getFieldName(),
+								item.getString("utf-8"));
 					}
-					num++;
 				} else {
-					File f = new File("src/main/webapp/image/"
-							+ staff.getLoginId()
-							+ item.getName().substring(
-									item.getName().lastIndexOf(".")));
-					f.createNewFile();
-					item.write(f);
+					 File f = new File("src/main/webapp/image/"
+					 + staff.getLoginId()
+					 + item.getName().substring(
+					 item.getName().lastIndexOf(".")));
+					 f.createNewFile();
+					 item.write(f);
 				}
 			}
 		} catch (FileUploadException e) {
-			e.printStackTrace();
-			return "error";
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return "error";
-		} catch (IOException e) {
 			e.printStackTrace();
 			return "error";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
+		staff.setCompanyDate(TimeTools.getCurrentTimeNoSeconds());
+		System.out.println(staff.getLoginId());
 		staffDao.add(staff);
 		return "success";
 	}
@@ -230,13 +212,42 @@ public class StaffService {
 	@Produces(MediaType.TEXT_HTML)
 	@Path("/loginIdIsExist/{loginId}")
 	public String CheckLoginIdIsExit(@PathParam("loginId") String loginId) {
-		List<Staff> list = staffDao.list(
-				"from Staff where loginId='" + loginId + "'");
-		if(list.isEmpty()){
+		List<Staff> list = staffDao.list("from Staff where loginId='" + loginId
+				+ "'");
+		if (list.isEmpty()) {
 			return "no";
-		}else {
+		} else {
 			return "yes";
 		}
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getUserBySession")
+	public Staff getLoginId(@Context HttpServletRequest request) {
+
+		String loginId = CookieUtil.getByUsernameByCookie(request, "user_key");
+		if(loginId == null){
+			return null;
+		}
+		Staff staff = staffDao.list(
+				"from Staff where loginId='" + loginId + "'").get(0);
+		return staff;
+	}
+
+	@POST
+	@Produces(MediaType.TEXT_HTML)
+	@Path("/loginOut")
+	public String LoginOut(@Context HttpServletRequest request,
+			@Context HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		session.removeAttribute("user_key");
+		Cookie cookie = new Cookie("user_key", null);
+		cookie.setMaxAge(0);
+		// cookie.setPath("/");
+		response.addCookie(cookie);
+		return "success";
 	}
 
 }

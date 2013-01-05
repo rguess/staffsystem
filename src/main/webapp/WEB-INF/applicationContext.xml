@@ -50,10 +50,7 @@
 			</props>
 		</property>
 		<!-- 实体bean -->
-		<property name="packagesToScan">
-			<list>
-				<value>org.guess.staffingsystem.bean</value>
-			</list>
+		<property name="packagesToScan" value="org.guess.staffingsystem.bean">
 		</property>
 	</bean>
 

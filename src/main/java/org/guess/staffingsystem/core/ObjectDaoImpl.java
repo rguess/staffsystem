@@ -32,7 +32,7 @@ public class ObjectDaoImpl<T, PK extends Serializable>
 	@Override
 	public void add(T obj) {
 
-		this.getHibernateTemplate().save(obj);
+		this.getHibernateTemplate().saveOrUpdate(obj);
 	}
 
 	@Override

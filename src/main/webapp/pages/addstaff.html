@@ -28,6 +28,7 @@ body {
 <script type="text/javascript" src="../js/jquery.form.js"></script>
 <script type="text/javascript" src="../js/uploadPreview.js"></script>
 <script type="text/javascript" src="../js/bootbox.js"></script>
+<script type="text/javascript" src="../js/loginheader.js"></script>
 <body>
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -39,7 +40,8 @@ body {
 				</a> <a class="brand" href="#">企业员工管理系统</a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-						<a href="#" class="navbar-link" style="margin-right: 20px">登陆</a>
+						<a href="#" class="navbar-link" style="margin-right: 20px"
+							id="loginUsername"></a><a href="../LoginOutServlet" id="loginout">login out</a>
 					</p>
 					<ul class="nav">
 						<li class="active"><a href="#">Home</a></li>
@@ -63,7 +65,7 @@ body {
 						<li><a href="#">Link</a></li>
 						<li class="nav-header">部门管理</li>
 						<li><a href="department.html">部门名单</a></li>
-						<li><a href="#">Link</a></li>
+						<li><a href="adddepartment.html">添加部门</a></li>
 						<li><a href="#">Link</a></li>
 						<li><a href="#">Link</a></li>
 						<li><a href="#">Link</a></li>
@@ -148,7 +150,7 @@ body {
 						<div class="control-group">
 							<label class="control-label" for="phone">联系方式(手机)</label>
 							<div class="controls">
-								<input type="text" id="phone" name="phone" placeholder="phone"
+								<input type="text" id="phone" name="phoneNumber" placeholder="phone"
 									onblur="javascript:checkPhone(this);"><span
 									class="help-inline"></span>
 							</div>
@@ -157,7 +159,7 @@ body {
 							<label class="control-label" for="address">住址</label>
 							<div class="controls">
 								<input type="text" id="address" name="address"
-									placeholder="address" onblur="javascript:checkPosition(this);"><span
+									placeholder="address" onblur="javascript:checkAddress(this);"><span
 									class="help-inline"></span>
 							</div>
 						</div>

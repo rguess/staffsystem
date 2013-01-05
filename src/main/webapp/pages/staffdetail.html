@@ -21,9 +21,24 @@ body {
 .sidebar-nav {
 	padding: 9px 0;
 }
+
+h3 {
+	color: blue;
+}
+
+div.info {
+	font-size: 16px;
+}
+
+span.detail {
+	margin-left: 50px;
+	color: blue;
+}
 </style>
 <script type="text/javascript" src="../js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="../js/jquery.getparam.js"></script>
 <script type="text/javascript" src="../js/staffdetail.js"></script>
+<script type="text/javascript" src="../js/loginheader.js"></script>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -34,7 +49,9 @@ body {
 				</a> <a class="brand" href="#">企业员工管理系统</a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-						<a href="#" class="navbar-link" style="margin-right: 20px">登陆</a>
+						<a href="#" class="navbar-link" style="margin-right: 20px"
+							id="loginUsername"></a>
+						<a href="../LoginOutServlet" id="loginout">login out</a>
 					</p>
 					<ul class="nav">
 						<li class="active"><a href="#">Home</a></li>
@@ -47,11 +64,50 @@ body {
 	</div>
 
 	<div class="container">
-		<div>
-			<h2>员工详细信息</h2>
-		</div>
-		<div>
-			<span class="label label-info">姓名</span>
+		<div class="info">
+			<h3>
+				<span id="headerName">zhangsan</span>的个人信息
+			</h3>
+			<table class="table" style="width: 60%">
+				<tr>
+					<td><span class="label label-info">姓名：</span></td>
+					<td><span class="detail" id="staffName">123123</span></td>
+				</tr>
+				<tr>
+					<td><span class="label label-info">头像：</span></td>
+					<td><img id="staffImage" alt="员工头像" src="" class="img-rounded"
+						width="100px" height="200px"></td>
+				</tr>
+				<tr>
+					<td><span class="label label-info">登录ID：</span></td>
+					<td><span class="detail" id="loginId">123123</span></td>
+				</tr>
+				<tr>
+					<td><span class="label label-info">性别：</span></td>
+					<td><span class="detail" id="sex">123123</span></td>
+				</tr>
+				<tr>
+					<td><span class="label label-info">职位：</span></td>
+					<td><span class="detail" id="position">123123</span></td>
+				</tr>
+				<tr>
+					<td><span class="label label-info">联系方式：</span></td>
+					<td><span class="detail" id="phoneNumber">123123</span></td>
+				</tr>
+				<tr>
+					<td><span class="label label-info">所在部门：</span></td>
+					<td><span class="detail" id="department">123123</span></td>
+				</tr>
+				<tr>
+					<td><span class="label label-info">注册日期：</span></td>
+					<td><span class="detail" id="companyDate">123123</span></td>
+				</tr>
+			</table>
+
+			<div>
+				<span><button class="btn btn-primary"
+						style="margin-left: 300px" onclick="javascript:history.back();">返回</button></span>
+			</div>
 		</div>
 		<hr>
 		<footer>

@@ -29,7 +29,7 @@ public class Staff {
 	@Column(name="staffname",length=20)
 	private String staffName;
 	
-	@Column(name="loginId",length=10)
+	@Column(name="loginId",length=20)
 	private String loginId;
 	
 	@Column(name="password",length=20)
@@ -62,7 +62,7 @@ public class Staff {
 	 * 进公司日期
 	 */
 	@Column(name="companyData")
-	private String companyData;
+	private String companyDate;
 
 	public enum Sex{
 		男,女;
@@ -148,13 +148,21 @@ public class Staff {
 		this.position = position;
 	}
 
-	public String getCompanyData() {
-		return companyData;
+	public String getCompanyDate() {
+		return companyDate;
 	}
 
-	public void setCompanyData(String companyData) {
-		this.companyData = companyData;
+	public void setCompanyDate(String companyDate) {
+		this.companyDate = companyDate;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Staff [id=" + id + ", staffName=" + staffName + ", loginId="
+				+ loginId + ", password=" + password + ", department="
+				+ department + ", sex=" + sex + ", salary=" + salary
+				+ ", address=" + address + ", phoneNumber=" + phoneNumber
+				+ ", position=" + position + ", companyData=" + companyDate
+				+ "]";
+	}
 }

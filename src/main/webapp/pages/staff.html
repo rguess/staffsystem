@@ -26,8 +26,12 @@ body {
 <script type="text/javascript" src="../js/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="../js/bootstrap.js"></script>
 <script type="text/javascript" src="../js/jquery.pagination.js"></script>
+<script type="text/javascript" src="../js/jquery.getparam.js"></script>
+<script type="text/javascript" src="../js/jquery.form.js"></script>
 <script type="text/javascript" src="../js/stafflist.js"></script>
+<script type="text/javascript" src="../js/uploadPreview.js"></script>
 <script type="text/javascript" src="../js/bootbox.js"></script>
+<script type="text/javascript" src="../js/loginheader.js"></script>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -38,7 +42,8 @@ body {
 				</a> <a class="brand" href="#">企业员工管理系统</a>
 				<div class="nav-collapse collapse">
 					<p class="navbar-text pull-right">
-						<a href="#" class="navbar-link" style="margin-right: 20px">登陆</a>
+						<a href="#" class="navbar-link" style="margin-right: 20px"
+							id="loginUsername"></a><a href="../LoginOutServlet">login out</a>
 					</p>
 					<ul class="nav">
 						<li class="active"><a href="#">Home</a></li>
@@ -62,7 +67,7 @@ body {
 						<li><a href="#">Link</a></li>
 						<li class="nav-header">部门管理</li>
 						<li><a href="department.html">部门名单</a></li>
-						<li><a href="#">Link</a></li>
+						<li><a href="adddepartment.html">添加部门</a></li>
 						<li><a href="#">Link</a></li>
 						<li><a href="#">Link</a></li>
 						<li><a href="#">Link</a></li>
@@ -100,10 +105,10 @@ body {
 							class="span9">
 					</div>
 					<div class="input-prepend span2">
-						<span class="add-on">部门</span><select id="department" class="span7">
+						<span class="add-on">部门</span><select id="department"
+							class="span7">
 							<option>全部</option>
-							<option>技术部</option>
-							<option>人力资源部</option>
+							<option>未分配</option>
 						</select>
 					</div>
 					<div class="input-prepend span2">
@@ -113,7 +118,9 @@ body {
 							<option>女</option>
 						</select>
 					</div>
-					<div class="span1"><button class="btn btn-primary" type="button" id="search">搜索</button></div>
+					<div class="span1">
+						<button class="btn btn-primary" type="button" id="search">搜索</button>
+					</div>
 				</div>
 				<br>
 				<div>
@@ -137,6 +144,115 @@ body {
 				</div>
 				<div id="Pagination" class="pagination"
 					style="float: right; margin-right: 100px"></div>
+			</div>
+
+			<div id="modal" class="modal hide fade" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">修改员工信息</h3>
+				</div>
+				<div class="modal-body">
+					<div>
+					<form class="form-horizontal" action="../rest/staff" method="post"
+						id="staffform" enctype="multipart/form-data">
+						<input type="hidden" id="MstaffId" name="id">
+						<div class="control-group">
+							<label class="control-label" for="MstaffName">姓名</label>
+							<div class="controls">
+								<input type="text" id="MstaffName" name="staffName" readonly="readonly"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="MloginId">登录名</label>
+							<div class="controls">
+								<input type="text" id="MloginId" name="loginId" readonly="readonly"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="imagefile">上传头像</label>
+							<div class="controls">
+								<input type="file" id="imagefile" name="imagefile" multiple
+									onchange="handleFiles(this.files)">
+								<div id="imageview"></div>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Mpassword">登录密码</label>
+							<div class="controls">
+								<input type="password" id="Mpassword" name="password"
+									placeholder="密码" onblur="javascript:checkPassword(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Mrepassword">重复密码</label>
+							<div class="controls">
+								<input type="password" id="Mrepassword" name="repassword"
+									placeholder="重复密码" onblur="javascript:checkRePassword(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Mdepartment">部门</label>
+							<div class="controls">
+								<select id="Mdepartment" name="department">
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Msex">性别</label>
+							<div class="controls">
+								<select id="Msex" name="sex">
+									<option>男</option>
+									<option>女</option>
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Mposition">职位</label>
+							<div class="controls">
+								<input type="text" id="Mposition" name="position"
+									placeholder="position"><span class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Mphone">联系方式(手机)</label>
+							<div class="controls">
+								<input type="text" id="Mphone" name="phoneNumber" placeholder="phone"
+									onblur="javascript:checkPhone(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Maddress">住址</label>
+							<div class="controls">
+								<input type="text" id="Maddress" name="address"
+									placeholder="address" onblur="javascript:checkAddress(this);"><span
+									class="help-inline"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="Msalary">薪水</label>
+							<div class="controls">
+								<div class="input-append">
+									<input id="Msalary" name="salary" type="text" placeholder="薪水"
+										onblur="javascript:checkSalary(this);"> <span
+										class="add-on">.00元</span>
+								</div>
+								<span class="help-inline"></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+					<button class="btn btn-primary" id="staffsubmit">Save changes</button>
+				</div>
 			</div>
 			<!--/span-->
 		</div>
